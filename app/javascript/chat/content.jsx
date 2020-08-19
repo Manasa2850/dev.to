@@ -27,6 +27,7 @@ export default class Content extends Component {
       handleRequestApproval: PropTypes.func,
       handleJoiningRequest: PropTypes.func,
       activeMembershipId: PropTypes.func,
+      handleLeaveChannel: PropTypes.func.isRequired,
     }).isRequired,
     fullscreen: PropTypes.bool.isRequired,
     onTriggerContent: PropTypes.func.isRequired,
@@ -109,6 +110,7 @@ const Display = ({ resource }) => {
         <ChatChannelSettings
           resource={resource.data}
           activeMembershipId={resource.activeMembershipId}
+          handleLeaveChannel={resource.handleLeaveChannel}
         />
       );
     default:

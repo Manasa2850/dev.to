@@ -19,6 +19,7 @@ import ChatChannelSettingsSection from './ChatChannelSettingsSection';
 export default class ChatChannelSettings extends Component {
   static propTypes = {
     activeMembershipId: PropTypes.number.isRequired,
+    handleLeaveChannel: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -40,6 +41,7 @@ export default class ChatChannelSettings extends Component {
       displaySettings: true,
       displayMembershipManager: false,
       invitationLink: null,
+      handleLeaveChannel: props.handleLeaveChannel,
     };
   }
 
@@ -48,9 +50,10 @@ export default class ChatChannelSettings extends Component {
   }
 
   componentWillReceiveProps() {
-    const { activeMembershipId } = this.props;
+    const { activeMembershipId, handleLeaveChannel } = this.props;
     this.setState({
       activeMembershipId,
+      handleLeaveChannel,
     });
   }
 
@@ -304,17 +307,23 @@ export default class ChatChannelSettings extends Component {
     const actionStatus = confirm(
       'Are you absolutely sure you want to leave this channel? This action is permanent.',
     );
-    const { currentMembership } = this.state;
+    const { currentMembership, handleLeaveChannel } = this.state;
     if (actionStatus) {
       const response = await leaveChatChannelMembership(currentMembership.id);
+      const { message } = response;
       if (response.success) {
-        this.updateChannelDetails();
+        this.setState({
+          successMessages: response.message,
+          errorMessages: null,
+        });
+        handleLeaveChannel(currentMembership.chat_channel_id);
       } else {
         this.setState({
           successMessages: null,
           errorMessages: response.message,
         });
       }
+      addSnackbarItem({ message });
     }
   };
 

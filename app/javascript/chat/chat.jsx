@@ -929,6 +929,18 @@ export default class Chat extends Component {
     });
   };
 
+  handleLeaveChannel = (channelId) => {
+    const newChannels = this.state.chatChannels.filter(
+      (channel) => channel.chat_channel_id !== channelId,
+    );
+    this.triggerSwitchChannel(
+      newChannels[0].chat_channel_id,
+      newChannels[0].channel_modified_slug,
+      newChannels,
+    );
+    this.setState({ chatChannels: newChannels });
+  };
+
   triggerActiveContent = (e) => {
     if (
       // Trying to open in new tab
@@ -1022,6 +1034,7 @@ export default class Chat extends Component {
           data: {},
           type_of: 'chat-channel-setting',
           activeMembershipId: activeChannel.id,
+          handleLeaveChannel: this.handleLeaveChannel,
         });
       }
     }

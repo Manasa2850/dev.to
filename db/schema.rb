@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_101700) do
+ActiveRecord::Schema.define(version: 2020_08_20_093752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -937,10 +937,12 @@ ActiveRecord::Schema.define(version: 2020_08_18_101700) do
     t.string "attribute_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.string "description"
+    t.integer "display_area", default: 1, null: false
     t.string "group"
     t.integer "input_type", default: 0, null: false
     t.citext "label", null: false
     t.string "placeholder_text"
+    t.boolean "show_in_onboarding", default: false, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["label"], name: "index_profile_fields_on_label", unique: true
   end
@@ -1378,7 +1380,15 @@ ActiveRecord::Schema.define(version: 2020_08_18_101700) do
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
   add_foreign_key "page_views", "articles", on_delete: :cascade
+  add_foreign_key "podcast_episodes", "podcasts", on_delete: :cascade
   add_foreign_key "podcasts", "users", column: "creator_id"
+  add_foreign_key "poll_options", "polls", on_delete: :cascade
+  add_foreign_key "poll_skips", "polls", on_delete: :cascade
+  add_foreign_key "poll_skips", "users", on_delete: :cascade
+  add_foreign_key "poll_votes", "poll_options", on_delete: :cascade
+  add_foreign_key "poll_votes", "polls", on_delete: :cascade
+  add_foreign_key "poll_votes", "users", on_delete: :cascade
+  add_foreign_key "polls", "articles", on_delete: :cascade
   add_foreign_key "profiles", "users", on_delete: :cascade
   add_foreign_key "response_templates", "users"
   add_foreign_key "sponsorships", "organizations"

@@ -45,3 +45,23 @@ award_sixteen_week_streak_badge:
     - ""
     - award_sixteen_week_streak_badge
     - ""
+award_weekly_tag_badges:
+  cron: "0 11 * * 4" # 11 am UTC every Thursday
+  class: "BadgeAchievements::BadgeAwardWorker"
+  args:
+    - ""
+    - award_tag_badges
+    - ""
+award_contributor_badges_from_github:
+  cron: "20 * * * *" # every hour, 20 min after the hour
+  class: "BadgeAchievements::BadgeAwardWorker"
+  args:
+    - ""
+    - award_contributor_badges_from_github
+    - ""
+resave_supported_tags:
+  cron: "25 0 * * *" # daily at 12:25 am UTC
+  class: "Tags::ResaveSupportedTagsWorker"
+expire_old_listings:
+  cron: "30 0 * * *" # daily at 12:30 am UTC
+  class: "Listings::ExpireOldListingsWorker"

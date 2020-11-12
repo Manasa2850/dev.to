@@ -42,7 +42,10 @@ class PodcastsController < ApplicationController
   end
 
   def podcast_params
-    allowed_params = policy(Podcast).permitted_attributes
+    allowed_params = %i[
+      android_url image itunes_url main_color_hex overcast_url pattern_image
+      slug soundcloud_url twitter_username website_url title feed_url description
+    ]
     params.require(:podcast).permit(allowed_params)
   end
 

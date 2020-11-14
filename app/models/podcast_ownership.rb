@@ -1,4 +1,4 @@
 class PodcastOwnership < ApplicationRecord
-    belongs_to :user
-    belongs_to :podcast
+  belongs_to :user
+  belongs_to :podcast
 end
